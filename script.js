@@ -15,6 +15,7 @@ resetButton.addEventListener("click", () => {
   init();
 });
 
+
 document.addEventListener("keydown", e => {
   console.log(e.key);
   eventHandler(e.key);
