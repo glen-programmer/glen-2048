@@ -21,8 +21,11 @@ const mainGridCells = document.querySelectorAll(".main-grid-cell");
 const mainGridCellLabels = document.querySelectorAll(".main-grid-cell-label");
 const userScoreLabel = document.querySelector(".info-user-score");
 const resetButton = document.querySelector(".info-reset-button");
+// Audio never works well on IOS as safari doesn't allow preload
 const collsionSound = new Audio("./sound/collision_sound.mp3");
 const errorSound = new Audio("./sound/error_sound.mp3");
+collsionSound.volume = 0.5;
+errorSound.volume = 0.5;
 const mainGrid = document.querySelector(".main-grid");
 let oldInnerHTML;
 let userScore = 0;
@@ -34,21 +37,20 @@ resetButton.addEventListener("click", () => {
   init();
 });
 
-
 document.addEventListener("keydown", e => {
   console.log(e.key);
   eventHandler(e.key);
 });
 
-document.addEventListener("touchstart", el => {
+mainGrid.addEventListener("touchstart", el => {
   startPos = el.touches[0];
 });
 
-document.addEventListener("touchmove", el => {
+mainGrid.addEventListener("touchmove", el => {
   endPos = el.touches[0];
 });
 
-document.addEventListener("touchend", () => {
+mainGrid.addEventListener("touchend", () => {
   // keyname according to vim hjkl
   let startX = startPos.clientX;
   let startY = startPos.clientY;
@@ -136,7 +138,8 @@ function eventHandler(event) {
     return;
   }
 
-  if (userScore > userScoreLabel.textContent) collsionSound.play();
+  if (Number(userScore) > Number(userScoreLabel.textContent))
+    collsionSound.play();
 
   userScoreLabel.textContent = userScore;
 
