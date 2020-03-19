@@ -1,3 +1,22 @@
+const colorsMap = new Map([
+  ["", "#FFFFFF"],
+  ["2", "#DFFDD3"],
+  ["4", "#C5FFAD"],
+  ["8", "#7DFF47"],
+  ["16", "#9AFF70"],
+  ["32", "#4BFF00"],
+  ["64", "#68F07E"],
+  ["128", "#3FD700"],
+  ["256", "#31A800"],
+  ["512", "#227400"],
+  ["1024", "#8AABFF"],
+  ["2048", "#FFA959"],
+  ["4096", "#F2A4FF"],
+  ["8192", "#FF8C8C"],
+  ["16384", "#FF5B5B"],
+  ["32768", "#DD0000"],
+]);
+
 const mainGridCells = document.querySelectorAll(".main-grid-cell");
 const mainGridCellLabels = document.querySelectorAll(".main-grid-cell-label");
 const userScoreLabel = document.querySelector(".info-user-score");
@@ -124,6 +143,8 @@ function eventHandler(event) {
   let emptyLabel = getRandomEmptyLabel();
   if (emptyLabel != null) emptyLabel.textContent = getTwoOrFour();
   else alert("You Lose!");
+
+  drawCells();
 }
 
 
@@ -216,12 +237,19 @@ function updateLine(...labels) {
   }
 }
 
+function drawCells() {
+  for (let cell of mainGridCells) {
+    cell.style.backgroundColor = colorsMap.get(cell.firstElementChild.textContent);
+  }
+}
+
 function init() {
   initEmptyBoard();
   getRandomEmptyLabel().textContent = getTwoOrFour();
   getRandomEmptyLabel().textContent = getTwoOrFour();
   userScore = 0;
   userScoreLabel.textContent = userScore;
+  drawCells();
 }
 
 function initEmptyBoard() {
@@ -242,7 +270,5 @@ function getRandomEmptyLabel() {
     return emptyLabels[getRandomNumber(emptyLabels.length)];
   return null;
 }
-
-function updateCellBackgroundColor(cell) {}
 
 init();
